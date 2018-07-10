@@ -29,7 +29,6 @@ class AuthActivity : AppCompatActivity(), AuthContract.View {
 
         mCallbackManager = CallbackManager.Factory.create()
         mAuth = FirebaseAuth.getInstance()
-        fb_login_button.setReadPermissions("email", "public_profile")
 
         presenter = AuthPresenter().apply {
             authView = this@AuthActivity
