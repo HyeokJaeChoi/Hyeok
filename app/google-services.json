@@ -15,15 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "580407796697-c319o6i8jo1ab4k814vleaaqtlka9oe6.apps.googleusercontent.com",
+          "client_id": "580407796697-nloff8oguqur5c2n3qsm4iunfrtio0ds.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.hyeok.example",
-            "certificate_hash": "586b4a5eaef4ff72857c237debacca92837aa6bc"
+            "certificate_hash": "46f8b11a1324c1202eadfd3f9affc225488e5b5f"
           }
         },
         {
-          "client_id": "580407796697-qfb7hob3ths1l6s32akav2vo8pelk3n6.apps.googleusercontent.com",
+          "client_id": "580407796697-vqg6hs97n0sk2j7vs24ij7htj7n7qt3f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "580407796697-qfb7hob3ths1l6s32akav2vo8pelk3n6.apps.googleusercontent.com",
+              "client_id": "580407796697-vqg6hs97n0sk2j7vs24ij7htj7n7qt3f.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

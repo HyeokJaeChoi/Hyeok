@@ -8,13 +8,13 @@ import android.view.View
 import android.widget.Toast
 import com.facebook.*
 import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.hyeok.example.R
 import com.hyeok.example.auth.presenter.AuthContract
 import com.hyeok.example.auth.presenter.AuthPresenter
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_auth.*
 
 class AuthActivity : AppCompatActivity(), AuthContract.View {
     override lateinit var presenter : AuthContract.Presenter
@@ -64,7 +64,12 @@ class AuthActivity : AppCompatActivity(), AuthContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        mCallbackManager.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 9001){
+            val googleLoginTask : Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+        }
+        else {
+            mCallbackManager.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     fun executeLogin(v : View){

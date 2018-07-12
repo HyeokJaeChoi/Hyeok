@@ -1,6 +1,7 @@
 package com.hyeok.example.auth.presenter
 
 import android.content.Intent
+import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
@@ -9,19 +10,23 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.hyeok.example.R
-import com.hyeok.example.auth.AuthActivity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+
+
 
 class AuthPresenter : AuthContract.Presenter {
     lateinit var mAuth : FirebaseAuth
     lateinit override var authView : AuthContract.View
+    val authViewActivity : AppCompatActivity = (authView as AppCompatActivity)
     lateinit var mFacebookCallbackManager : CallbackManager
     private val compositeDisposable : CompositeDisposable = CompositeDisposable()
 
@@ -46,11 +51,23 @@ class AuthPresenter : AuthContract.Presenter {
         })
     }
 
+    fun googleAuthTask(){
+        val gso : GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken((authViewActivity).resources.getString(R.string.default_google_web_client_id))
+                .requestEmail()
+                .build()
+        val mGoogleSignInClient : GoogleSignInClient = GoogleSignIn.getClient(authView as AppCompatActivity, gso)
+        (authViewActivity).startActivityForResult(mGoogleSignInClient.signInIntent, 9001)
+    }
+
     override fun executeAuthTask(v : View) {
         when (v.id) {
-             R.id.fb_login_button -> {
-                 Log.d("buttonID", v.id.toString() + " " + R.id.fb_login_button.toString())
-                 facebookAuthTask(mFacebookCallbackManager)
+            R.id.fb_login_button -> {
+                Log.d("buttonID", v.id.toString() + " " + R.id.fb_login_button.toString())
+                facebookAuthTask(mFacebookCallbackManager)
+            }
+            R.id.google_login_button -> {
+                googleAuthTask()
             }
             R.id.rxtest -> {
                 val rxtestObservable : Observable<String> = Observable.just("test", "rx", "button")
@@ -68,7 +85,7 @@ class AuthPresenter : AuthContract.Presenter {
         lateinit var credential: AuthCredential
         credential = FacebookAuthProvider.getCredential(authToken)
         this.mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(authView as AppCompatActivity) { it: Task<AuthResult> ->
+                .addOnCompleteListener(authViewActivity) { it: Task<AuthResult> ->
                     if(it.isSuccessful) {
                         Log.d("FirebaseAuth Credential", "FirebaseAuth Credential completed!" + " " + Thread.currentThread().name)
                         //authView.startMain(Intent(authView as AppCompatActivity, MainActivity::class.java))
