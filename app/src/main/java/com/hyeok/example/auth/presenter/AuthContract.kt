@@ -14,7 +14,7 @@ interface AuthContract{
     interface Presenter : BasePresenter {
         var authView : View
 
-        fun setCredential(authToken : String?)
+        fun setCredential(authToken : String)
         fun executeAuthTask(v : android.view.View)
         fun disposeAll()
     }

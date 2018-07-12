@@ -21,7 +21,6 @@ class AuthActivity : AppCompatActivity(), AuthContract.View {
     private lateinit var mAuth : FirebaseAuth
     private lateinit var mAuthListener : FirebaseAuth.AuthStateListener
     private lateinit var mCallbackManager : CallbackManager
-    private val compositeDisposable : CompositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +32,7 @@ class AuthActivity : AppCompatActivity(), AuthContract.View {
         presenter = AuthPresenter().apply {
             authView = this@AuthActivity
             mFacebookCallbackManager = this@AuthActivity.mCallbackManager
+            mAuth = this@AuthActivity.mAuth
         }
         mAuthListener = FirebaseAuth.AuthStateListener {
             it : FirebaseAuth ->
@@ -71,9 +71,9 @@ class AuthActivity : AppCompatActivity(), AuthContract.View {
         presenter.executeAuthTask(v)
     }
 
-    fun logout_facebook(v : View){
+    fun logoutFacebook(v : View){
         LoginManager.getInstance().logOut()
-        mAuth.signOut()
+        FirebaseAuth.getInstance().signOut()
     }
 
     override fun startMain(intent : Intent) {

@@ -37,7 +37,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:text="Logout"
-        android:onClick="logout_facebook"
+        android:onClick="logoutFacebook"
         />
 
 </android.support.constraint.ConstraintLayout>
