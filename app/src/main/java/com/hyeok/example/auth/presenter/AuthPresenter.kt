@@ -5,12 +5,14 @@ import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
@@ -26,7 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 class AuthPresenter : AuthContract.Presenter {
     lateinit var mAuth : FirebaseAuth
     lateinit override var authView : AuthContract.View
-    val authViewActivity : AppCompatActivity = (authView as AppCompatActivity)
+    lateinit var authViewActivity : AppCompatActivity
     lateinit var mFacebookCallbackManager : CallbackManager
     private val compositeDisposable : CompositeDisposable = CompositeDisposable()
 
@@ -38,7 +40,7 @@ class AuthPresenter : AuthContract.Presenter {
         LoginManager.getInstance().registerCallback(mFacebookCallbackManager, object : FacebookCallback<LoginResult>{
             override fun onSuccess(result: LoginResult?) {
                 Log.d("accesstoken", result!!.accessToken.token)
-                this@AuthPresenter.setCredential(result.accessToken.token)
+                this@AuthPresenter.setCredential(result.accessToken)
             }
 
             override fun onCancel() {
@@ -52,12 +54,15 @@ class AuthPresenter : AuthContract.Presenter {
     }
 
     fun googleAuthTask(){
-        val gso : GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken((authViewActivity).resources.getString(R.string.default_google_web_client_id))
+        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(authViewActivity.resources.getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
-        val mGoogleSignInClient : GoogleSignInClient = GoogleSignIn.getClient(authView as AppCompatActivity, gso)
-        (authViewActivity).startActivityForResult(mGoogleSignInClient.signInIntent, 9001)
+                ?.let{
+                    Log.d("webclientkey", authViewActivity.resources.getString(R.string.default_web_client_id))
+                    val mGoogleSignInClient : GoogleSignInClient = GoogleSignIn.getClient(authViewActivity, it)
+                    authViewActivity.startActivityForResult(mGoogleSignInClient.signInIntent, 9001)
+                }
     }
 
     override fun executeAuthTask(v : View) {
@@ -67,6 +72,7 @@ class AuthPresenter : AuthContract.Presenter {
                 facebookAuthTask(mFacebookCallbackManager)
             }
             R.id.google_login_button -> {
+                Log.d("buttonID", v.id.toString() + " " + R.id.google_login_button.toString())
                 googleAuthTask()
             }
             R.id.rxtest -> {
@@ -81,19 +87,33 @@ class AuthPresenter : AuthContract.Presenter {
         }
     }
 
-    override fun setCredential(authToken : String) {
+    override fun <T>setCredential(authToken : T) {
         lateinit var credential: AuthCredential
-        credential = FacebookAuthProvider.getCredential(authToken)
-        this.mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(authViewActivity) { it: Task<AuthResult> ->
-                    if(it.isSuccessful) {
-                        Log.d("FirebaseAuth Credential", "FirebaseAuth Credential completed!" + " " + Thread.currentThread().name)
-                        //authView.startMain(Intent(authView as AppCompatActivity, MainActivity::class.java))
-                    }
-                    else{
-                        Log.e("FirebaseAuth Credential", it.exception?.message)
-                    }
-                }
+             if(authToken is AccessToken){
+                credential = FacebookAuthProvider.getCredential((authToken as AccessToken).token)
+                this.mAuth.signInWithCredential(credential)
+                        .addOnCompleteListener(authViewActivity) { it: Task<AuthResult> ->
+                            if(it.isSuccessful) {
+                                Log.d("FirebaseFacebookAuth", "FirebaseAuth Credential completed!" + " " + Thread.currentThread().name)
+                                //authView.startMain(Intent(authView as AppCompatActivity, MainActivity::class.java))
+                            }
+                            else{
+                                Log.e("FirebaseFacebookAuth", it.exception?.message)
+                            }
+                        }
+            }
+             else if(authToken is GoogleSignInAccount){
+                credential = GoogleAuthProvider.getCredential((authToken as GoogleSignInAccount).id, null)
+                this.mAuth.signInWithCredential(credential)
+                        .addOnCompleteListener(authViewActivity){ it : Task<AuthResult> ->
+                            if(it.isSuccessful){
+                                Log.d("FirebaseGoogleAuth", "FirebaseGoogleAuth Credential completed!")
+                            }
+                            else{
+                                Log.d("FirebaseGoogleAuth", it.exception?.message)
+                            }
+                        }
+            }
     }
 
     override fun disposeAll() {

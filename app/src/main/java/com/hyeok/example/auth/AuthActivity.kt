@@ -10,6 +10,7 @@ import com.facebook.*
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.hyeok.example.R
@@ -31,9 +32,11 @@ class AuthActivity : AppCompatActivity(), AuthContract.View {
 
         presenter = AuthPresenter().apply {
             authView = this@AuthActivity
+            authViewActivity = authView as AppCompatActivity
             mFacebookCallbackManager = this@AuthActivity.mCallbackManager
             mAuth = this@AuthActivity.mAuth
         }
+        Log.d("webclientid", getString(R.string.default_web_client_id))
         mAuthListener = FirebaseAuth.AuthStateListener {
             it : FirebaseAuth ->
 
@@ -64,8 +67,11 @@ class AuthActivity : AppCompatActivity(), AuthContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d("requestCode", requestCode.toString())
         if(requestCode == 9001){
-            val googleLoginTask : Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            GoogleSignIn.getSignedInAccountFromIntent(data)?.let{
+                presenter.setCredential(it.getResult(ApiException::class.java))
+            }
         }
         else {
             mCallbackManager.onActivityResult(requestCode, resultCode, data)
