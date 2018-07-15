@@ -108,7 +108,8 @@ class AuthActivity : AppCompatActivity(), AuthContract.View {
 
     fun logoutAll(v : View){
         LoginManager.getInstance().logOut()
-        mGoogl(it.isSuccessful)
+        mGoogleSignInClient.signOut().addOnCompleteListener(this) {
+            if(it.isSuccessful)
                 Log.d("GoogleLogout", "Google Logout Success!!")
         }
         FirebaseAuth.getInstance().signOut()
