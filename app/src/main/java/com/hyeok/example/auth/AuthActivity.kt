@@ -1,6 +1,7 @@
 package com.hyeok.example.auth
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,33 +11,47 @@ import com.facebook.*
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.hyeok.example.R
 import com.hyeok.example.auth.presenter.AuthContract
 import com.hyeok.example.auth.presenter.AuthPresenter
+import kotlinx.android.synthetic.main.activity_auth.*
 
 class AuthActivity : AppCompatActivity(), AuthContract.View {
     override lateinit var presenter : AuthContract.Presenter
     private lateinit var mAuth : FirebaseAuth
     private lateinit var mAuthListener : FirebaseAuth.AuthStateListener
     private lateinit var mCallbackManager : CallbackManager
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
-        mCallbackManager = CallbackManager.Factory.create()
         mAuth = FirebaseAuth.getInstance()
+        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+                .let{
+                    mGoogleSignInClient = GoogleSignIn.getClient(this, it)
+                }
 
         presenter = AuthPresenter().apply {
             authView = this@AuthActivity
             authViewActivity = authView as AppCompatActivity
-            mFacebookCallbackManager = this@AuthActivity.mCallbackManager
             mAuth = this@AuthActivity.mAuth
         }
-        Log.d("webclientid", getString(R.string.default_web_client_id))
+
+        google_login_button.setOnClickListener {
+            executeLogin(it)
+        }
+
         mAuthListener = FirebaseAuth.AuthStateListener {
             it : FirebaseAuth ->
 
@@ -79,11 +94,23 @@ class AuthActivity : AppCompatActivity(), AuthContract.View {
     }
 
     fun executeLogin(v : View){
+        when(v.id){
+            R.id.fb_login_button -> {
+                mCallbackManager = CallbackManager.Factory.create()
+                (presenter as AuthPresenter).mCallbackManager = mCallbackManager
+            }
+            R.id.google_login_button -> {
+                (presenter as AuthPresenter).mGoogleSignInClient = mGoogleSignInClient
+            }
+        }
         presenter.executeAuthTask(v)
     }
 
-    fun logoutFacebook(v : View){
+    fun logoutAll(v : View){
         LoginManager.getInstance().logOut()
+        mGoogl(it.isSuccessful)
+                Log.d("GoogleLogout", "Google Logout Success!!")
+        }
         FirebaseAuth.getInstance().signOut()
     }
 
