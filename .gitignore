@@ -9,7 +9,7 @@ local.properties
 
 # Gradle generated files
 .gradle/
-Grade.properties
+gradle.properties
 
 # Signing files
 .signing/
