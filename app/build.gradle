@@ -16,11 +16,11 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField('String', 'facebookAppId', facebook_application_id)
+            buildConfigField('String', 'facebookApplicationId', facebook_application_id)
             buildConfigField('String', 'fbLoginProtocolScheme', fb_login_protocol_scheme)
             buildConfigField('String', 'twitterConsumerKey', twitter_consumer_key)
             buildConfigField('String', 'twitterConsumerSecret', twitter_consumer_secret)
-            resValue('string', 'facebook_app_id', facebook_application_id)
+            resValue('string', 'facebook_application_id', facebook_application_id)
             resValue('string', 'fb_login_protocol_scheme', fb_login_protocol_scheme)
             resValue('string', 'twitter_consumer_key', twitter_consumer_key)
             resValue('string', 'twitter_consumer_secret', twitter_consumer_secret)
@@ -28,15 +28,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField('String', 'facebookAppId', facebook_application_id)
+            buildConfigField('String', 'facebookApplicationId', facebook_application_id)
             buildConfigField('String', 'fbLoginProtocolScheme', fb_login_protocol_scheme)
             buildConfigField('String', 'twitterConsumerKey', twitter_consumer_key)
             buildConfigField('String', 'twitterConsumerSecret', twitter_consumer_secret)
-            resValue('string', 'facebook_app_id', facebook_application_id)
+            resValue('string', 'facebook_application_id', facebook_application_id)
             resValue('string', 'fb_login_protocol_scheme', fb_login_protocol_scheme)
             resValue('string', 'twitter_consumer_key', twitter_consumer_key)
             resValue('string', 'twitter_consumer_secret', twitter_consumer_secret)
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -54,6 +58,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.1.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
+    implementation('com.twitter.sdk.android:twitter:3.3.0@aar') { transitive = true }
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
