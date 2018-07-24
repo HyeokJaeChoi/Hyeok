@@ -49,7 +49,6 @@ class SplashActivity : AppCompatActivity() {
             val response: IdpResponse = IdpResponse.fromResultIntent(data)!!
 
             if(resultCode == RESULT_OK) {
-                mainIntent.putExtra("userInfo", response)
                 startActivity(mainIntent)
                 finish()
             }else{
