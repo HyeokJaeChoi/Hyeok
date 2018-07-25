@@ -9,6 +9,7 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.hyeok.example.auth.AuthActivity
+import com.hyeok.example.gif.ui.MainActivity
 import java.util.*
 
 class SplashActivity : AppCompatActivity() {
@@ -20,7 +21,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val currentUser : FirebaseUser? = FirebaseAuth.getInstance()?.currentUser
-        mainIntent = Intent(this, AuthActivity::class.java)
+        mainIntent = Intent(this, MainActivity::class.java)
         currentUser?.let {
             startActivity(mainIntent)
             finish()
