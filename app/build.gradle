@@ -21,10 +21,12 @@ android {
             buildConfigField('String', 'fbLoginProtocolScheme', fb_login_protocol_scheme)
             buildConfigField('String', 'twitterConsumerKey', twitter_consumer_key)
             buildConfigField('String', 'twitterConsumerSecret', twitter_consumer_secret)
+            buildConfigField('String', 'serverUrl', server_url)
             resValue('string', 'facebook_application_id', facebook_application_id)
             resValue('string', 'fb_login_protocol_scheme', fb_login_protocol_scheme)
             resValue('string', 'twitter_consumer_key', twitter_consumer_key)
             resValue('string', 'twitter_consumer_secret', twitter_consumer_secret)
+            resValue('string', 'server_url', server_url)
         }
         release {
             minifyEnabled false
@@ -33,10 +35,12 @@ android {
             buildConfigField('String', 'fbLoginProtocolScheme', fb_login_protocol_scheme)
             buildConfigField('String', 'twitterConsumerKey', twitter_consumer_key)
             buildConfigField('String', 'twitterConsumerSecret', twitter_consumer_secret)
+            buildConfigField('String', 'serverUrl', server_url)
             resValue('string', 'facebook_application_id', facebook_application_id)
             resValue('string', 'fb_login_protocol_scheme', fb_login_protocol_scheme)
             resValue('string', 'twitter_consumer_key', twitter_consumer_key)
             resValue('string', 'twitter_consumer_secret', twitter_consumer_secret)
+            resValue('string', 'server_rul', server_url)
         }
     }
     compileOptions {
@@ -55,9 +59,11 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     implementation "android.arch.persistence.room:runtime:$room_version"
+    implementation 'com.android.support:support-v4:27.1.1'
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     implementation "android.arch.paging:runtime:$paging_version"
     implementation 'com.android.support:design:27.1.1'
@@ -86,7 +92,6 @@ dependencies {
     ///Glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
-
 
     ///Test
     testImplementation 'junit:junit:4.12'
