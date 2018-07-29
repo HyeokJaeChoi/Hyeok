@@ -2,15 +2,17 @@ package com.hyeok.example.gif.api
 
 import com.hyeok.example.BuildConfig
 import com.hyeok.example.gif.model.Gif
+import com.hyeok.example.gif.model.GifResponse
 import io.reactivex.Single
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.Result
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface GifService{
 
@@ -33,4 +35,10 @@ interface GifService{
 
     @GET("/list")
     fun getList() : Single<Result<List<Gif>>>
+    @DELETE("/delete:" + "{id}")
+    fun deleteGif(@Path("id") id : Int) : Single<Result<String>>
+    @Multipart
+    @POST("/upload")
+    fun uploadGif(@Part("img") img : MultipartBody.Part, @Part("tag") tag : RequestBody) : Single<Result<GifResponse>>
+
 }

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.hyeok.example.gif.model.Gif
 
 class GifAdapter(private val onClick : (Int) -> Unit) : PagedListAdapter<Gif, GifViewHolder>(diffCallback){
+
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Gif>(){
             override fun areItemsTheSame(oldItem: Gif?, newItem: Gif?): Boolean {
@@ -18,11 +19,11 @@ class GifAdapter(private val onClick : (Int) -> Unit) : PagedListAdapter<Gif, Gi
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifViewHolder{
         return GifViewHolder(parent, onClick)
     }
 
-    override fun onBindViewHolder(holder:, position: Int) {
-        GifViewHolder
+    override fun onBindViewHolder(holder: GifViewHolder, position: Int) {
+        holder.bindTo(getItem(position))
     }
 }
