@@ -30,14 +30,14 @@ class GifRemoteDataSource(private val compositeDisposable: CompositeDisposable, 
                                 callback.onResult(it)
                             }
                         },{
-                            Log.d("GitRemoteDataSource", "Initial Gif fetch failed")
+                            Log.d("GitRemoteDataSource", "After Gif fetch failed")
                         }
                 )
         )
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Gif>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //Do Nothing
     }
 
     override fun getKey(item: Gif): Int {
