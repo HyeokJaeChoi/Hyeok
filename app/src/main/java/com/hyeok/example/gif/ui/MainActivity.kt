@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import com.hyeok.example.R
+import com.hyeok.example.gif.api.GifService
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

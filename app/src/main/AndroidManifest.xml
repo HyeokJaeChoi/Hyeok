@@ -43,10 +43,10 @@
         </activity>
         <activity
             android:name=".auth.AuthActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".gif.ui.MainActivity"
-            android:label="@string/title_activity_main"></activity>
+            android:label="@string/title_activity_main" />
     </application>
 
 </manifest>

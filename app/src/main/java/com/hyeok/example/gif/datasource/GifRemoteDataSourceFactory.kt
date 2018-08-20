@@ -9,7 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 class GifRemoteDataSourceFactory(private val compositeDisposable: CompositeDisposable, private val gifService: GifService)
     : DataSource.Factory<Int, Gif>() {
 
-    val gifDataSourceLiveData = MutableLiveData<GifRemoteDataSource>()
+    private val gifDataSourceLiveData = MutableLiveData<GifRemoteDataSource>()
 
     override fun create(): DataSource<Int, Gif> {
         val gifRemoteDataSource = GifRemoteDataSource(compositeDisposable, gifService)

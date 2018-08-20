@@ -14,7 +14,7 @@ class GifAdapter(private val onClick : (Int) -> Unit) : PagedListAdapter<Gif, Gi
             }
 
             override fun areContentsTheSame(oldItem: Gif?, newItem: Gif?): Boolean {
-                return (oldItem?.id == newItem?.id) && (oldItem?.views == newItem?.views)
+                return oldItem == newItem
             }
         }
     }
@@ -24,6 +24,11 @@ class GifAdapter(private val onClick : (Int) -> Unit) : PagedListAdapter<Gif, Gi
     }
 
     override fun onBindViewHolder(holder: GifViewHolder, position: Int) {
-        holder.bindTo(getItem(position))
+        val gif = getItem(position)
+        gif?.let {
+            holder.bindTo(gif)
+        }.let {
+
+        }
     }
 }
