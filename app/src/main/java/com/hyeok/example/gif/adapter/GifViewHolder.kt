@@ -14,13 +14,13 @@ class GifViewHolder(parent : ViewGroup, private val onClick : (Int) -> Unit) : R
     private val gifView = itemView.findViewById<ImageView>(R.id.gif_image)
 
     fun bindTo(gif : Gif?){
-        Glide.with(itemView.context)
+        Glide.with(itemView)
                 .asGif()
                 .load(gif?.fileUrl)
                 .into(gifView)
         itemView.setOnClickListener {
             gif?.let {
-                onClick(gif.id)
+                onClick(it.id)
             }
         }
     }

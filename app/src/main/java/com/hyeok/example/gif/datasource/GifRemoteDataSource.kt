@@ -1,4 +1,4 @@
-package com.hyeok.example.gif.repository.datasource
+package com.hyeok.example.gif.datasource
 
 import android.arch.paging.ItemKeyedDataSource
 import android.util.Log
@@ -14,6 +14,7 @@ class GifRemoteDataSource(private val compositeDisposable: CompositeDisposable, 
                         .subscribe({
                             it.response()?.body()?.let{
                                 callback.onResult(it)
+                                Log.d("GifRemoteDataSource", "Initial Gif fetch success")
                             }
                         },{
                             Log.d("GitRemoteDataSource", "Initial Gif fetch failed")
@@ -28,6 +29,7 @@ class GifRemoteDataSource(private val compositeDisposable: CompositeDisposable, 
                         .subscribe({
                             it.response()?.body()?.let{
                                 callback.onResult(it)
+                                Log.d("GifRemoteDataSource", "After Gif fetch failed")
                             }
                         },{
                             Log.d("GitRemoteDataSource", "After Gif fetch failed")

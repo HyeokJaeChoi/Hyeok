@@ -2,6 +2,7 @@ package com.hyeok.example.gif.adapter
 
 import android.arch.paging.PagedListAdapter
 import android.support.v7.util.DiffUtil
+import android.util.Log
 import android.view.ViewGroup
 import com.hyeok.example.gif.model.Gif
 
@@ -27,8 +28,9 @@ class GifAdapter(private val onClick : (Int) -> Unit) : PagedListAdapter<Gif, Gi
         val gif = getItem(position)
         gif?.let {
             holder.bindTo(gif)
+            Log.d("bindGifView", "Gif bind success")
         }.let {
-
+            Log.d("bindGifView", "Gif bind failed")
         }
     }
 }

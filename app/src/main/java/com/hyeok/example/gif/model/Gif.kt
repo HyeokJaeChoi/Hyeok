@@ -1,7 +1,6 @@
 package com.hyeok.example.gif.model
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class Gif(
 
@@ -18,8 +17,8 @@ data class Gif(
     @SerializedName("authorId")
     val authorId : Int,
     @SerializedName("createdAt")
-    val createdAt : Date,
+    val createdAt : String,
     @SerializedName("updatedAt")
-    val updatedAt : Date
+    val updatedAt : String
 
 )

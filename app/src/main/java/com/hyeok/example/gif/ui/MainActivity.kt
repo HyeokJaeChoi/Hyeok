@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         fmTransaction.add(R.id.fragment_container, HomeFragment()).commit()
     }
 
-    fun replaceFragment(fragment : Fragment){
+    private fun replaceFragment(fragment : Fragment){
         fmTransaction.replace(R.id.fragment_container, fragment).commit()
     }
 }

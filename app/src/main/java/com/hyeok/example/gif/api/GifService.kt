@@ -33,14 +33,14 @@ interface GifService{
         }
     }
 
-    @GET("/list")
+    @GET("list")
     fun getList() : Single<Result<List<Gif>>>
-    @PUT("/click" + "{id}")
+    @PUT("click" + "{id}")
     fun clickGif(@Path("id") id : Int) : Single<Result<String>>
-    @DELETE("/delete:" + "{id}")
+    @DELETE("delete:" + "{id}")
     fun deleteGif(@Path("id") id : Int) : Single<Result<String>>
     @Multipart
-    @POST("/upload")
+    @POST("upload")
     fun uploadGif(@Part("img") img : MultipartBody.Part, @Part("tag") tag : RequestBody) : Single<Result<GifResponse>>
 
 }

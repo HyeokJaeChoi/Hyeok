@@ -6,7 +6,7 @@ import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import com.hyeok.example.gif.api.GifService
 import com.hyeok.example.gif.model.Gif
-import com.hyeok.example.gif.repository.datasource.GifRemoteDataSourceFactory
+import com.hyeok.example.gif.datasource.GifRemoteDataSourceFactory
 import io.reactivex.disposables.CompositeDisposable
 
 class GifViewModel : ViewModel(){

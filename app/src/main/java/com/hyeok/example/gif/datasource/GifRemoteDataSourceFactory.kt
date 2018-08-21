@@ -1,4 +1,4 @@
-package com.hyeok.example.gif.repository.datasource
+package com.hyeok.example.gif.datasource
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.DataSource

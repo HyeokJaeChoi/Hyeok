@@ -6,6 +6,7 @@ import android.arch.paging.PagedList
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -27,10 +28,15 @@ class HomeFragment : Fragment(), GifContract.View {
     private lateinit var gifViewModel: GifViewModel
     private lateinit var gifListAdapter : GifAdapter
 
-    val gifService = GifService.create()
+    private val gifService = GifService.create()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         DividerItemDecoration(gif_recycler_view.context, StaggeredGridLayoutManager.HORIZONTAL).apply {
             gif_recycler_view.addItemDecoration(this)
             gif_recycler_view.setHasFixedSize(false)
@@ -48,8 +54,7 @@ class HomeFragment : Fragment(), GifContract.View {
         }
         gif_recycler_view.adapter = gifListAdapter
         gifViewModel = ViewModelProviders.of(this).get(GifViewModel::class.java)
-        gifViewModel.gifLiveDataList.observe(this, Observer<PagedList<Gif>> { gifListAdapter.submitList(it) })
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        gifViewModel.gifLiveDataList.observe(this, Observer { gifListAdapter.submitList(it) })
     }
 
     override fun setGifList() {
